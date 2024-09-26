@@ -1,0 +1,31 @@
+package sti.globals.product;
+
+unit ProductUnit;
+
+import sti.globals.product.Product;
+
+rule "Standard product discount"
+    when
+        /products[ productId : id, category == "Standard" ]
+        $product : /products[ id == productId ]
+    then
+        $product.setDiscount($product.getPrice() * 0.05);
+        System.out.println("5% discount applied to standard product.");
+end
+
+rule "Premium product discount"
+    when
+        /products[ productId : id, category == "Premium" ]
+        $product : /products[ id == productId ]
+    then
+        $product.setDiscount($product.getPrice() * 0.1);
+        System.out.println("10% discount applied to premium product.");
+end
+
+query FindAllProducts
+    $p: /products
+end
+
+query FindPremiumProduct
+    $p: /products[ category == "Premium" ]
+end
